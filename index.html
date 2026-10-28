@@ -52,7 +52,7 @@ input[type=range]{width:100%;accent-color:var(--r)}
 #map{position:absolute;inset:0}
 .leg{position:absolute;left:12px;bottom:12px;z-index:500;background:#fff;border-radius:10px;padding:8px 12px;font-size:12px;box-shadow:0 2px 10px rgba(0,0,0,.12)}
 .leg div{display:flex;align-items:center;gap:6px;margin:2px 0}
-.views{position:absolute;top:12px;left:56px;z-index:500;display:flex;gap:6px}
+.views{position:absolute;top:12px;left:56px;right:70px;flex-wrap:wrap;z-index:500;display:flex;gap:6px}
 .views button{background:#fff;border:0;border-radius:8px;padding:7px 11px;font:600 12px Sora;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.15)}
 .views button:hover{background:var(--nuit);color:#fff}
 #panel{width:380px;background:#fff;border-radius:14px;overflow-y:auto;flex-shrink:0;padding:16px}
@@ -138,7 +138,7 @@ tr.c{cursor:pointer}tr.c:hover td{background:#FFF5F6}
 const ST={"Client actif":"#1E9E6A","Prospect en cours":"#F2A541","À conquérir":"#9AA0A6","Client perdu":"#D6455D"};
 const ICO={"Grossiste":"📦","Supermarché":"🛒","Grand magasin":"🏬","Centre commercial":"🏢","Pharmacie":"💊","Droguerie":"🧴","Boutique cosmétique":"💄","Parfumerie":"🌸","Salon de beauté":"💇","Marché":"🧺"};
 const VIEWS={ao:[[11,-6],5],ci:[[7.5,-5.5],7],abj:[[5.35,-4.0],12],dkr:[[14.72,-17.4],12],oua:[[12.36,-1.52],12],coo:[[6.38,2.40],12]};
-const fmt=n=>n==null?'—':n>=1e6?(n/1e6).toFixed(1).replace('.',',')+' M':n>=1e3?Math.round(n/1e3)+' k':String(n);
+const fmt=n=>n==null?'—':n>=1e9?(n/1e9).toFixed(1).replace('.',',')+' Md':n>=1e6?(n/1e6).toFixed(1).replace('.',',')+' M':n>=1e3?Math.round(n/1e3)+' k':String(n);
 const F=n=>Math.round(n).toLocaleString('fr-FR');
 let D,P=[],T,map,cluster,heat,charts={},sel=null,radiusMode=false,circle=null,center=null;
 const f={st:new Set(),cc:new Set(),cat:new Set()};
