@@ -98,7 +98,7 @@ tr.c{cursor:pointer}tr.c:hover td{background:#FFF5F6}
     <button data-t="pays">🌍 Pays</button>
   </div>
 </header>
-<div class="demo">📍 <b>Points de vente réels</b> (nom, position, téléphone quand il est publié : OpenStreetMap). 🎮 <b>Statuts, commerciaux, ventes et performances : données de démonstration fictives</b>, pour montrer ce que la carte affichera une fois branchée sur le suivi des affaires de Dream.</div>
+<div class="demo">📍 <b>Points de vente réels</b> dans 6 pays, Mali à compléter (nom, position, téléphone quand il est publié : OpenStreetMap). 🎮 <b>Statuts, commerciaux, ventes et performances : données de démonstration fictives</b>, pour montrer ce que la carte affichera une fois branchée sur le suivi des affaires de Dream.</div>
 <div class="kpis" id="kpis"></div>
 <main>
   <aside id="side">
@@ -165,7 +165,7 @@ function init(){
   map.addLayer(cluster);
   // filtres
   chips('f-st',Object.keys(ST),k=>`<span class="dot" style="background:${ST[k]}"></span>${k}`,'st');
-  chips('f-cc',Object.keys(D.pays),k=>`${D.fl[k]} ${D.pays[k]}`,'cc');
+  chips('f-cc',Object.keys(D.pays).filter(k=>P.some(p=>p.cc===k)),k=>`${D.fl[k]} ${D.pays[k]}`,'cc');
   chips('f-cat',Object.keys(ICO),k=>`${ICO[k]} ${k}`,'cat');
   const sc=document.getElementById('f-com');T.forEach((t,i)=>sc.insertAdjacentHTML('beforeend',`<option value="${i}">${t[0]} · ${t[1]}</option>`));
   ['q','f-com','f-perf','f-pot','f-grp','f-late','f-tel','f-heat'].forEach(id=>document.getElementById(id).addEventListener('input',apply));
@@ -272,9 +272,9 @@ function renderTab(t,R){
        <td><div style="display:flex;align-items:center;gap:6px"><div class="bar" style="width:${r.tot/mx*90}px"></div>${fmt(r.tot)} F</div></td><td style="color:${perfCol(r.perf)};font-weight:700">${r.perf}</td><td>${r.pros}</td><td style="color:${r.late?'#D6455D':''}">${r.late}</td></tr>`).join('')+
       `</table><div style="font-size:11px;color:#76767E;margin-top:6px">Cliquez sur une ligne pour n'afficher que son portefeuille sur la carte.</div></div><div><canvas id="ct"></canvas></div></div>`;
     const sum=D.mois.map((_,m)=>R.filter(p=>p.ca).reduce((a,p)=>a+p.ca[m],0));
-    charts.t=new Chart(document.getElementById('ct'),{type:'line',data:{labels:D.mois,datasets:[{label:'Ventes mensuelles de la sélection (démo)',data:sum,borderColor:'#AE172A',backgroundColor:'rgba(174,23,42,.12)',fill:true,tension:.35}]},
-      options:{maintainAspectRatio:false,plugins:{legend:{labels:{font:{size:11}}}},scales:{y:{ticks:{callback:v=>fmt(v)}}}}});
     document.getElementById('ct').parentElement.style.height='290px';
+    charts.t=new Chart(document.getElementById('ct'),{type:'line',data:{labels:D.mois,datasets:[{label:'Ventes mensuelles de la sélection (démo)',data:sum,borderColor:'#AE172A',borderWidth:3,pointRadius:4,pointBackgroundColor:'#AE172A',backgroundColor:'rgba(174,23,42,.12)',fill:true,tension:.35}]},
+      options:{animation:false,maintainAspectRatio:false,plugins:{legend:{labels:{font:{size:11}}}},scales:{y:{beginAtZero:true,ticks:{callback:v=>fmt(v)}}}}});
   }
   if(t==='top'){
     const cl=R.filter(p=>p.st==='Client actif').sort((a,b)=>b.perf-a.perf),top=cl.slice(0,25),low=cl.slice(-10).reverse();
