@@ -143,7 +143,7 @@ const F=n=>Math.round(n).toLocaleString('fr-FR');
 let D,P=[],T,map,cluster,heat,charts={},sel=null,radiusMode=false,circle=null,center=null;
 const f={st:new Set(),cc:new Set(),cat:new Set()};
 
-fetch('data.json').then(r=>r.json()).then(d=>{D=d;T=d.team;
+fetch('meta.json').then(r=>r.json()).then(async d=>{const ps=await Promise.all(d.parts.map(k=>fetch('p_'+k+'.json').then(r=>r.json())));d.pts=ps.flat();D=d;T=d.team;
   P=d.pts.map(a=>{const o={};d.keys.forEach((k,i)=>o[k]=a[i]);o.tot=o.ca?o.ca.reduce((x,y)=>x+y,0):0;return o});
   init();});
 fetch('logo.txt').then(r=>r.text()).then(t=>document.getElementById('logo').src=t);
